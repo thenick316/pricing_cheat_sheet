@@ -230,6 +230,7 @@
         ['Power injection cables','ea', qtyInject, priceInject, extInject],
         ['Jumper cables','ea', qtyJumper, priceJumper, extJumper],
         ['T‑connectors','ea', qtyT, priceT, extT],
+        ['Control system','ea', 1, control, control],
       ];
       const tbody = $('breakdownBody');
       tbody.innerHTML = rows.map(r=>`<tr><td>${r[0]}</td><td class="muted">${r[1]}</td><td>${r[2].toLocaleString()}</td><td>${money(r[3])}</td><td>${money(r[4])}</td></tr>`).join('');
