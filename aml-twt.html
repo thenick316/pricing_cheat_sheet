@@ -5,290 +5,199 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Roofline Permanent Lighting — Pricing Cheat Sheet</title>
   <style>
-    :root{
-      --bg:#0f172a;           /* slate-900 */
-      --panel:#111827;        /* gray-900 */
-      --muted:#1f2937;        /* gray-800 */
-      --accent:#22c55e;       /* emerald-500 */
-      --accent-2:#38bdf8;     /* sky-400 */
-      --text:#e5e7eb;         /* gray-200 */
-      --sub:#9ca3af;          /* gray-400 */
-      --warn:#f59e0b;         /* amber-500 */
-      --danger:#ef4444;       /* red-500 */
-      --ok:#10b981;           /* teal-500 */
+    :root {
+      --bg:#0f172a;
+      --panel:#111827;
+      --accent:#22c55e;
+      --accent-2:#38bdf8;
+      --text:#e5e7eb;
+      --sub:#9ca3af;
     }
-    *{box-sizing:border-box}
-    body{background:var(--bg);color:var(--text);font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";margin:0;padding:24px}
-    h1{font-size:24px;margin:0 0 8px}
-    h2{font-size:18px;margin:24px 0 8px;color:var(--accent-2)}
-    p{color:var(--sub);margin:0 0 12px}
-    .grid{display:grid;gap:16px}
-    .cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
-    .panel{background:linear-gradient(180deg, var(--panel), #0b1220);border:1px solid #1f2937;border-radius:12px;padding:16px}
-    .row{display:flex;gap:12px;align-items:center;margin:8px 0}
-    label{font-size:12px;color:var(--sub);min-width:140px}
-    input[type="number"], select{width:100%;background:#1a2332;color:var(--text);border:2px solid #475569;border-radius:8px;padding:12px 14px;font-size:15px;font-weight:500;min-height:44px}
-    input[type="number"]:focus, select:focus{outline:none;border-color:var(--accent-2);background:#1e293b;box-shadow:0 0 0 3px rgba(56, 189, 248, 0.1)}
-    
-    /* Enhanced Bill of Materials styling */
-    .bom-grid{display:grid;grid-template-columns:repeat(2,minmax(280px,1fr));gap:16px}
-    .bom-row{display:flex;gap:12px;align-items:center;margin:10px 0}
-    .bom-row label{font-size:13px;color:#cbd5e1;min-width:120px;font-weight:500}
-    .bom-row input{min-width:120px;background:#1e293b;border:2px solid #64748b;color:#f1f5f9;font-weight:600}
+    body {background:var(--bg);color:var(--text);font-family:Inter,sans-serif;margin:0;padding:24px}
+    h1 {font-size:24px;margin:0 0 8px}
+    h2 {font-size:18px;margin:16px 0 8px;color:var(--accent-2);cursor:pointer}
+    p {color:var(--sub);margin:0 0 12px}
+
+    .panel {background:linear-gradient(180deg, var(--panel), #0b1220);border:1px solid #1f2937;border-radius:12px;padding:16px;margin-bottom:16px}
+    .row {display:flex;gap:12px;align-items:center;margin:8px 0}
+    label {font-size:13px;color:var(--sub);min-width:160px}
+    input[type="number"], select {
+      width:100%;background:#1a2332;color:var(--text);
+      border:2px solid #475569;border-radius:8px;padding:10px;font-weight:500;
+    }
     input[type="checkbox"]{transform:scale(1.2)}
-    table{width:100%;border-collapse:separate;border-spacing:0 8px}
-    th,td{text-align:right;padding:10px 12px}
-    th{color:#cbd5e1;font-weight:600;border-bottom:1px dashed #334155}
-    td:first-child, th:first-child{text-align:left}
-    tr{background:#0b1324;border:1px solid #1f2937}
-    tr td{border-top:1px solid #1f2937;border-bottom:1px solid #1f2937}
-    .muted{color:var(--sub)}
-    .pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#152033;border:1px solid #24324a;color:#cfe7ff;font-size:12px}
-    .summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-    .card{background:#0b1324;border:1px solid #1f2937;border-radius:12px;padding:16px}
-    .kpi{font-size:22px;font-weight:700}
-    .btn{background:var(--accent);color:#052e16;border:none;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+    .btn {background:var(--accent);color:#052e16;border:none;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
     .btn.secondary{background:#1f2937;color:#e5e7eb;border:1px solid #334155}
-    .row .inline{display:flex;gap:8px;align-items:center}
-    .foot{margin-top:12px;color:var(--sub);font-size:12px}
-    @media (max-width: 1024px){.cols-2,.cols-3{grid-template-columns:1fr}.summary{grid-template-columns:1fr 1fr}}
-    @media (max-width: 640px){.summary{grid-template-columns:1fr}}
-    .tag{font-size:12px;color:#93c5fd}
+
+    .hidden {display:none}
+    .toggle-sub {font-size:12px;color:var(--sub);margin-left:8px}
+    table{width:100%;margin-top:10px;border-collapse:separate;border-spacing:0 8px}
+    th,td{text-align:right;padding:8px}
+    th{color:#cbd5e1;font-weight:600;border-bottom:1px dashed #334155}
+    td:first-child,th:first-child{text-align:left}
+    .summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
+    .card{background:#0b1324;border:1px solid #1f2937;border-radius:12px;padding:16px}
+    .kpi{font-size:20px;font-weight:700}
   </style>
 </head>
 <body>
   <h1>Roofline Permanent Lighting — Pricing Cheat Sheet</h1>
-  <p class="pill">Interactive estimator with live cost breakdown and per‑foot pricing</p>
+  <p>Interactive estimator with live cost breakdown and per‑foot pricing</p>
 
-  <div class="grid cols-2">
-    <div class="panel">
-      <h2>Project Inputs</h2>
-      <div class="row"><label>Linear footage (ft)</label><input id="linearFeet" type="number" step="1" min="1" value="200"/></div>
-      <div class="row"><label>Dot spacing (in)</label><input id="dotSpacing" type="number" step="0.01" min="1" value="9"/></div>
-      <div class="row"><label>Apply material waste (%)</label><input id="wastePct" type="number" step="0.1" min="0" value="0"/></div>
-      <div class="row"><label>Labor rate ($/hr)</label><input id="laborRate" type="number" step="1" min="0" value="0"/></div>
-      <div class="row"><label>Install hours (est.)</label><input id="laborHours" type="number" step="0.1" min="0" value="0"/></div>
-      <div class="row"><label>Travel/Misc (fixed $)</label><input id="miscFixed" type="number" step="1" min="0" value="0"/></div>
-      <div class="row"><label>Sales markup on cost (%)</label><input id="markupPct" type="number" step="0.5" min="0" value="0"/></div>
-      <div class="row"><label>Control system</label>
-        <select id="controlOption">
-          <option value="500">Proprietary — $500</option>
-          <option value="1000">DMX — $1,000</option>
-        </select>
-      </div>
-      <div class="row"><button class="btn" onclick="resetToSpec()">Load Example Spec (200 ft)</button>
-        <button class="btn secondary" onclick="window.print()">Print / Save PDF</button></div>
-      <div class="foot">Note: Waste is applied to materials only (channels, dots, cables). Markup applies to the grand total after labor and misc.</div>
+  <!-- PROJECT DETAILS -->
+  <div class="panel">
+    <h2>Project Details</h2>
+    <div class="row"><label>Linear footage (ft)</label><input id="linearFeet" type="number" step="1" min="1" value="200"/></div>
+    <div class="row"><label>Apply material waste (%)</label><input id="wastePct" type="number" step="0.1" min="0" value="0"/></div>
+    <div class="row"><label>Control system</label>
+      <select id="controlOption">
+        <option value="500">Proprietary — $500</option>
+        <option value="1000">DMX — $1,000</option>
+      </select>
     </div>
-
-    <div class="panel">
-      <h2>Bill of Materials</h2>
-
-      <div class="row"><span class="tag">Channel lengths (ft)</span></div>
-      <div class="bom-grid">
-        <div class="bom-row"><label>Backer channel</label><input id="lenBacker" type="number" step="1" min="0" value="200"/></div>
-        <div class="bom-row"><label>Channel face</label><input id="lenFace" type="number" step="1" min="0" value="180"/></div>
-        <div class="bom-row"><label>Chaser channel</label><input id="lenChaser" type="number" step="1" min="0" value="10"/></div>
-        <div class="bom-row"><label>45° angle parts</label><input id="lenAngle" type="number" step="1" min="0" value="10"/></div>
-      </div>
-
-      <div class="row"><span class="tag">Unit prices</span></div>
-      <div class="bom-grid">
-        <div class="bom-row"><label>Backer $/ft</label><input id="priceBacker" type="number" step="0.01" min="0" value="2.37"/></div>
-        <div class="bom-row"><label>Face $/ft</label><input id="priceFace" type="number" step="0.01" min="0" value="2.88"/></div>
-        <div class="bom-row"><label>Chaser $/ft</label><input id="priceChaser" type="number" step="0.01" min="0" value="3.11"/></div>
-        <div class="bom-row"><label>45° $/ft</label><input id="priceAngle" type="number" step="0.01" min="0" value="4.13"/></div>
-      </div>
-
-      <div class="row"><span class="tag">Lighting & connectors</span></div>
-      <div class="bom-grid">
-        <div class="bom-row"><label>Dot unit price ($)</label><input id="priceDot" type="number" step="0.01" min="0" value="6.03"/></div>
-        <div class="bom-row"><label>Power inject qty</label><input id="qtyInject" type="number" step="1" min="0" value="4"/></div>
-        <div class="bom-row"><label>Power inject $</label><input id="priceInject" type="number" step="0.01" min="0" value="40"/></div>
-        <div class="bom-row"><label>Jumpers qty</label><input id="qtyJumper" type="number" step="1" min="0" value="10"/></div>
-        <div class="bom-row"><label>Jumper $</label><input id="priceJumper" type="number" step="0.01" min="0" value="4.79"/></div>
-        <div class="bom-row"><label>T‑connectors qty</label><input id="qtyT" type="number" step="1" min="0" value="4"/></div>
-        <div class="bom-row"><label>T‑connector $</label><input id="priceT" type="number" step="0.01" min="0" value="11.80"/></div>
-      </div>
+    <div class="row"><label>Installation method</label>
+      <select id="installMethod">
+        <option value="backer">Backer Channel</option>
+        <option value="clip">Clip</option>
+      </select>
     </div>
   </div>
 
-  <div class="panel" style="margin-top:16px">
+  <!-- LABOR INPUTS (expandable) -->
+  <div class="panel">
+    <h2 onclick="toggleSection('labor-section')">Labor Inputs <span class="toggle-sub">(expand to enter labor details)</span></h2>
+    <div id="labor-section" class="hidden">
+      <div class="row"><label>Install hours (est.)</label><input id="laborHours" type="number" step="0.1" min="0" value="0"/></div>
+      <div class="row"><label>Labor rate ($/hr)</label><input id="laborRate" type="number" step="1" min="0" value="0"/></div>
+      <div class="row"><label>Sales markup on cost (%)</label><input id="markupPct" type="number" step="0.5" min="0" value="0"/></div>
+      <div class="row"><label>Travel/Misc (fixed $)</label><input id="miscFixed" type="number" step="1" min="0" value="0"/></div>
+    </div>
+  </div>
+
+  <!-- PROJECT ASSUMPTIONS (was BOM) -->
+  <div class="panel">
+    <h2 onclick="toggleSection('bom-section')">Project Assumptions <span class="toggle-sub">(expand to view material inputs)</span></h2>
+    <div id="bom-section" class="hidden">
+      <div class="row"><label>Backer $/ft</label><input id="priceBacker" type="number" step="0.01" min="0" value="2.37"/></div>
+      <div class="row"><label>Face $/ft</label><input id="priceFace" type="number" step="0.01" min="0" value="2.88"/></div>
+      <div class="row"><label>Chaser $/ft</label><input id="priceChaser" type="number" step="0.01" min="0" value="3.11"/></div>
+      <div class="row"><label>45° $/ft</label><input id="priceAngle" type="number" step="0.01" min="0" value="4.13"/></div>
+      <div class="row"><label>Clip price (ea)</label><input id="priceClip" type="number" step="0.01" min="0" value="0.50"/></div>
+
+      <div class="row"><label>Dot unit price ($)</label><input id="priceDot" type="number" step="0.01" min="0" value="6.03"/></div>
+      <div class="row"><label>Power inject qty</label><input id="qtyInject" type="number" step="1" min="0" value="4"/></div>
+      <div class="row"><label>Power inject $</label><input id="priceInject" type="number" step="0.01" min="0" value="40"/></div>
+      <div class="row"><label>Jumpers qty</label><input id="qtyJumper" type="number" step="1" min="0" value="10"/></div>
+      <div class="row"><label>Jumper $</label><input id="priceJumper" type="number" step="0.01" min="0" value="4.79"/></div>
+      <div class="row"><label>T‑connectors qty</label><input id="qtyT" type="number" step="1" min="0" value="4"/></div>
+      <div class="row"><label>T‑connector $</label><input id="priceT" type="number" step="0.01" min="0" value="11.80"/></div>
+    </div>
+  </div>
+
+  <!-- COST BREAKDOWN -->
+  <div class="panel">
     <h2>Detailed Cost Breakdown</h2>
     <table>
-      <thead>
-        <tr>
-          <th>Component</th>
-          <th class="muted">Units</th>
-          <th>Qty</th>
-          <th>Unit $</th>
-          <th>Ext. $</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Component</th><th>Units</th><th>Qty</th><th>Unit $</th><th>Ext. $</th></tr></thead>
       <tbody id="breakdownBody"></tbody>
     </table>
 
-    <div class="summary" style="margin-top:8px">
+    <div class="summary">
       <div class="card"><div class="muted">Materials subtotal</div><div id="materialsSubtotal" class="kpi">$0.00</div></div>
       <div class="card"><div class="muted">Waste add‑on</div><div id="wasteAdd" class="kpi">$0.00</div></div>
       <div class="card"><div class="muted">Labor + Misc</div><div id="laborMisc" class="kpi">$0.00</div></div>
       <div class="card"><div class="muted">Control system</div><div id="controlCost" class="kpi">$0.00</div></div>
     </div>
 
-    <div class="summary" style="margin-top:8px">
-      <div class="card" style="border-color:#334155"><div class="muted">Cost (pre‑markup)</div><div id="preMarkup" class="kpi">$0.00</div></div>
-      <div class="card" style="border-color:#334155"><div class="muted">Markup $</div><div id="markupValue" class="kpi">$0.00</div></div>
-      <div class="card" style="border-color:#334155"><div class="muted">Selling price</div><div id="sellPrice" class="kpi">$0.00</div></div>
-      <div class="card" style="border-color:#334155"><div class="muted">$/ft (sell)</div><div id="perFtSell" class="kpi">$0.00</div></div>
+    <div class="summary">
+      <div class="card"><div class="muted">Cost (pre‑markup)</div><div id="preMarkup" class="kpi">$0.00</div></div>
+      <div class="card"><div class="muted">Markup $</div><div id="markupValue" class="kpi">$0.00</div></div>
+      <div class="card"><div class="muted">Selling price</div><div id="sellPrice" class="kpi">$0.00</div></div>
+      <div class="card"><div class="muted">$/ft (sell)</div><div id="perFtSell" class="kpi">$0.00</div></div>
     </div>
-
-    <div class="grid cols-3" style="margin-top:8px">
-      <div class="card"><div class="muted">$/ft (materials only)</div><div id="perFtMaterials" class="kpi">$0.00</div></div>
-      <div class="card"><div class="muted">Dots per ft (computed)</div><div id="dotsPerFt" class="kpi">0.00</div></div>
-      <div class="card"><div class="muted">Dots total (ceil)</div><div id="dotsTotal" class="kpi">0</div></div>
-    </div>
-
-    <div class="foot">Tip: Adjust cable quantities if your design requires more power injection/segments. Dot count uses ceil((ft×12)/spacing).</div>
   </div>
 
   <script>
-    const $ = (id)=>document.getElementById(id);
+    const $ = id => document.getElementById(id);
+
+    function toggleSection(id){
+      $(id).classList.toggle('hidden');
+    }
 
     function money(n){
       return n.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:2});
     }
-
-    function num(id){
-      const v = parseFloat($(id).value);
-      return isNaN(v) ? 0 : v;
-    }
+    function num(id){const v=parseFloat($(id).value);return isNaN(v)?0:v;}
 
     function compute(){
       const ft = num('linearFeet');
-      const dotSpacing = Math.max(0.01, num('dotSpacing'));
-
-      // Channels
-      const lenBacker = num('lenBacker');
-      const lenFace   = num('lenFace');
-      const lenChaser = num('lenChaser');
-      const lenAngle  = num('lenAngle');
-      const priceBacker = num('priceBacker');
-      const priceFace   = num('priceFace');
-      const priceChaser = num('priceChaser');
-      const priceAngle  = num('priceAngle');
-
-      // Lighting
-      const priceDot = num('priceDot');
+      const dotSpacing = 9; // fixed
       const dots = Math.ceil((ft*12)/dotSpacing);
-      const dotsPerFt = (ft>0) ? (dots/ft) : 0;
 
-      const qtyInject  = num('qtyInject');
-      const priceInject= num('priceInject');
-      const qtyJumper  = num('qtyJumper');
-      const priceJumper= num('priceJumper');
-      const qtyT       = num('qtyT');
-      const priceT     = num('priceT');
+      // Assumptions & unit prices
+      const priceBacker=num('priceBacker'), priceFace=num('priceFace'), priceChaser=num('priceChaser'), priceAngle=num('priceAngle');
+      const priceDot=num('priceDot'), priceInject=num('priceInject'), qtyInject=num('qtyInject');
+      const priceJumper=num('priceJumper'), qtyJumper=num('qtyJumper');
+      const priceT=num('priceT'), qtyT=num('qtyT');
+      const priceClip=num('priceClip');
+      const installMethod=$('installMethod').value;
 
-      // Other
-      const control = num('controlOption');
-      const wastePct = num('wastePct')/100;
-      const laborRate = num('laborRate');
-      const laborHours= num('laborHours');
-      const miscFixed = num('miscFixed');
-      const markupPct = num('markupPct')/100;
+      // Compute quantities
+      const lenBacker=ft, lenFace=Math.max(ft-20,0), lenChaser=10, lenAngle=10;
+      const dotsPerFt = ft>0?dots/ft:0;
 
-      // Extendeds
-      const extBacker = lenBacker * priceBacker;
-      const extFace   = lenFace   * priceFace;
-      const extChaser = lenChaser * priceChaser;
-      const extAngle  = lenAngle  * priceAngle;
-      const extDots   = dots * priceDot;
-      const extInject = qtyInject * priceInject;
-      const extJumper = qtyJumper * priceJumper;
-      const extT      = qtyT      * priceT;
+      // Extended costs
+      let extBacker=0, extFace=lenFace*priceFace, extChaser=lenChaser*priceChaser, extAngle=lenAngle*priceAngle, extClips=0;
+      if(installMethod==="backer"){
+        extBacker=lenBacker*priceBacker;
+      } else {
+        // Clips: 4 clips per 2m → =4 / 6.56ft ≈ 0.61 clips/ft
+        const clipQty=Math.ceil(ft*0.61);
+        extClips=clipQty*priceClip;
+      }
+      const extDots=dots*priceDot, extInject=qtyInject*priceInject, extJumper=qtyJumper*priceJumper, extT=qtyT*priceT;
 
-      const materials = extBacker+extFace+extChaser+extAngle+extDots+extInject+extJumper+extT;
-      const wasteAdd  = materials * wastePct;
-      const laborMisc = (laborRate*laborHours) + miscFixed;
+      const materials=extBacker+extFace+extChaser+extAngle+extDots+extInject+extJumper+extT+extClips;
+      const wasteAdd=materials*(num('wastePct')/100);
 
-      const preMarkup = materials + wasteAdd + laborMisc + control;
-      const markupVal = preMarkup * markupPct;
-      const sell      = preMarkup + markupVal;
+      const laborMisc=(num('laborRate')*num('laborHours'))+num('miscFixed');
+      const control=num('controlOption').value;
+      const preMarkup=materials+wasteAdd+laborMisc+parseFloat(control);
+      const markupVal=preMarkup*(num('markupPct')/100);
+      const sell=preMarkup+markupVal;
+      const perFtSell=ft>0?sell/ft:0;
 
-      // Per-ft metrics
-      const perFtMaterials = ft>0 ? (materials/ft) : 0;
-      const perFtSell      = ft>0 ? (sell/ft) : 0;
+      // Breakdown table
+      const rows=[];
+      if(installMethod==="backer") rows.push(['Backer channel','ft',lenBacker,priceBacker,extBacker]);
+      else rows.push(['Clips','ea',Math.ceil(ft*0.61),priceClip,extClips]);
+      rows.push(['Channel face','ft',lenFace,priceFace,extFace]);
+      rows.push(['Chaser channel','ft',lenChaser,priceChaser,extChaser]);
+      rows.push(['45° angle parts','ft',lenAngle,priceAngle,extAngle]);
+      rows.push(['Pixel dots','ea',dots,priceDot,extDots]);
+      rows.push(['Power injection','ea',qtyInject,priceInject,extInject]);
+      rows.push(['Jumpers','ea',qtyJumper,priceJumper,extJumper]);
+      rows.push(['T‑connectors','ea',qtyT,priceT,extT]);
+      rows.push(['Control system','ea',1,control,control]);
 
-      // Render table
-      const rows = [
-        ['Backer channel','ft', lenBacker, priceBacker, extBacker],
-        ['Channel face','ft', lenFace, priceFace, extFace],
-        ['Chaser channel','ft', lenChaser, priceChaser, extChaser],
-        ['45° angle parts','ft', lenAngle, priceAngle, extAngle],
-        ['Pixel dots','ea', dots, priceDot, extDots],
-        ['Power injection cables','ea', qtyInject, priceInject, extInject],
-        ['Jumper cables','ea', qtyJumper, priceJumper, extJumper],
-        ['T‑connectors','ea', qtyT, priceT, extT],
-        ['Control system','ea', 1, control, control],
-      ];
-      const tbody = $('breakdownBody');
-      tbody.innerHTML = rows.map(r=>`<tr><td>${r[0]}</td><td class="muted">${r[1]}</td><td>${r[2].toLocaleString()}</td><td>${money(r[3])}</td><td>${money(r[4])}</td></tr>`).join('');
+      $('breakdownBody').innerHTML=rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${money(r[3])}</td><td>${money(r[4])}</td></tr>`).join('');
 
       // KPIs
-      $('materialsSubtotal').textContent = money(materials);
-      $('wasteAdd').textContent = money(wasteAdd);
-      $('laborMisc').textContent = money(laborMisc);
-      $('controlCost').textContent = money(control);
-      $('preMarkup').textContent = money(preMarkup);
-      $('markupValue').textContent = money(markupVal);
-      $('sellPrice').textContent = money(sell);
-      $('perFtSell').textContent = money(perFtSell);
-      $('perFtMaterials').textContent = money(perFtMaterials);
-      $('dotsPerFt').textContent = dotsPerFt.toFixed(3);
-      $('dotsTotal').textContent = dots.toLocaleString();
+      $('materialsSubtotal').textContent=money(materials);
+      $('wasteAdd').textContent=money(wasteAdd);
+      $('laborMisc').textContent=money(laborMisc);
+      $('controlCost').textContent=money(control);
+      $('preMarkup').textContent=money(preMarkup);
+      $('markupValue').textContent=money(markupVal);
+      $('sellPrice').textContent=money(sell);
+      $('perFtSell').textContent=money(perFtSell);
     }
 
-    function resetToSpec(){
-      // From the user's provided 200 ft example
-      $('linearFeet').value = 200;
-      $('dotSpacing').value = 9;
-      $('wastePct').value = 0;
-      $('laborRate').value = 0;
-      $('laborHours').value = 0;
-      $('miscFixed').value = 0;
-      $('markupPct').value = 0;
-      $('controlOption').value = 500;
-
-      $('lenBacker').value = 200;
-      $('lenFace').value = 180;
-      $('lenChaser').value = 10;
-      $('lenAngle').value = 10;
-
-      $('priceBacker').value = 2.37;
-      $('priceFace').value = 2.88;
-      $('priceChaser').value = 3.11;
-      $('priceAngle').value = 4.13;
-
-      $('priceDot').value = 6.03;
-      $('qtyInject').value = 4;
-      $('priceInject').value = 40;
-      $('qtyJumper').value = 10;
-      $('priceJumper').value = 4.79;
-      $('qtyT').value = 4;
-      $('priceT').value = 11.80;
-
-      compute();
-    }
-
-    // Bind listeners for live updates
     document.querySelectorAll('input,select').forEach(el=>{
-      el.addEventListener('input', compute);
-      el.addEventListener('change', compute);
+      el.addEventListener('input',compute);
+      el.addEventListener('change',compute);
     });
-
-    // Initial render
-    resetToSpec();
+    compute();
   </script>
 </body>
 </html>
