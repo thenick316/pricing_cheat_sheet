@@ -161,7 +161,7 @@
       const wasteAdd=materials*(num('wastePct')/100);
 
       const laborMisc=(num('laborRate')*num('laborHours'))+num('miscFixed');
-      const control=num('controlOption').value;
+      const control=parseFloat($('controlOption').value);
       const preMarkup=materials+wasteAdd+laborMisc+parseFloat(control);
       const markupVal=preMarkup*(num('markupPct')/100);
       const sell=preMarkup+markupVal;
@@ -186,7 +186,7 @@
       $('materialsSubtotal').textContent=money(materials);
       $('wasteAdd').textContent=money(wasteAdd);
       $('laborMisc').textContent=money(laborMisc);
-      $('controlCost').textContent=money(control);
+      $('controlCost').textContent=money(parseFloat(control));
       $('preMarkup').textContent=money(preMarkup);
       $('markupValue').textContent=money(markupVal);
       $('sellPrice').textContent=money(sell);
