@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Roofline Permanent Lighting — Pricing Cheat Sheet</title>
+  <title>Roofline Permanent Lighting — Pricing Calculator</title>
   <style>
     :root {
-      --bg:#0f172a;
-      --panel:#111827;
-      --accent:#22c55e;
-      --accent-2:#38bdf8;
-      --text:#e5e7eb;
-      --sub:#9ca3af;
+    --bg:#0f172a;
+    --panel:#111827;
+    --accent:#22c55e;
+    --accent-2:#38bdf8;
+    --text:#e5e7eb;
+    --sub:#9ca3af;
     }
     body {background:var(--bg);color:var(--text);font-family:Inter,sans-serif;margin:0;padding:24px}
     h1 {font-size:24px;margin:0 0 8px}
@@ -22,8 +22,8 @@
     .row {display:flex;gap:12px;align-items:center;margin:8px 0}
     label {font-size:13px;color:var(--sub);min-width:160px}
     input[type="number"], select {
-      width:100%;background:#1a2332;color:var(--text);
-      border:2px solid #475569;border-radius:8px;padding:10px;font-weight:500;
+    width:100%;background:#1a2332;color:var(--text);
+    border:2px solid #475569;border-radius:8px;padding:10px;font-weight:500;
     }
     input[type="checkbox"]{transform:scale(1.2)}
     .btn {background:var(--accent);color:#052e16;border:none;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
@@ -31,17 +31,13 @@
 
     .hidden {display:none}
     .toggle-sub {font-size:12px;color:var(--sub);margin-left:8px}
-    table{width:100%;margin-top:10px;border-collapse:separate;border-spacing:0 8px}
-    th,td{text-align:right;padding:8px}
-    th{color:#cbd5e1;font-weight:600;border-bottom:1px dashed #334155}
-    td:first-child,th:first-child{text-align:left}
     .summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
     .card{background:#0b1324;border:1px solid #1f2937;border-radius:12px;padding:16px}
     .kpi{font-size:20px;font-weight:700}
   </style>
 </head>
 <body>
-  <h1>Roofline Permanent Lighting — Pricing Cheat Sheet</h1>
+  <h1>Roofline Permanent Lighting — Pricing Calculator</h1>
   <p>Interactive estimator with live cost breakdown and per‑foot pricing</p>
 
   <!-- PROJECT DETAILS -->
@@ -50,16 +46,16 @@
     <div class="row"><label>Linear footage (ft)</label><input id="linearFeet" type="number" step="1" min="1" value="200"/></div>
     <div class="row"><label>Apply material waste (%)</label><input id="wastePct" type="number" step="0.1" min="0" value="0"/></div>
     <div class="row"><label>Control system</label>
-      <select id="controlOption">
-        <option value="500">Proprietary — $500</option>
-        <option value="1000">DMX — $1,000</option>
-      </select>
+    <select id="controlOption">
+    <option value="500">Proprietary — $500</option>
+    <option value="0">Exclude Controls — $0</option>
+    </select>
     </div>
     <div class="row"><label>Installation method</label>
-      <select id="installMethod">
-        <option value="backer">Backer Channel</option>
-        <option value="clip">Clip</option>
-      </select>
+    <select id="installMethod">
+    <option value="backer">Backer Channel</option>
+    <option value="clip">Clip</option>
+    </select>
     </div>
   </div>
 
@@ -67,53 +63,45 @@
   <div class="panel">
     <h2 onclick="toggleSection('labor-section')">Labor Inputs <span class="toggle-sub">(expand to enter labor details)</span></h2>
     <div id="labor-section" class="hidden">
-      <div class="row"><label>Install hours (est.)</label><input id="laborHours" type="number" step="0.1" min="0" value="0"/></div>
-      <div class="row"><label>Labor rate ($/hr)</label><input id="laborRate" type="number" step="1" min="0" value="0"/></div>
-      <div class="row"><label>Sales markup on cost (%)</label><input id="markupPct" type="number" step="0.5" min="0" value="0"/></div>
-      <div class="row"><label>Travel/Misc (fixed $)</label><input id="miscFixed" type="number" step="1" min="0" value="0"/></div>
+    <div class="row"><label>Install hours (est.)</label><input id="laborHours" type="number" step="0.1" min="0" value="0"/></div>
+    <div class="row"><label>Labor rate ($/hr)</label><input id="laborRate" type="number" step="1" min="0" value="0"/></div>
+    <div class="row"><label>Sales markup on cost (%)</label><input id="markupPct" type="number" step="0.5" min="0" value="0"/></div>
+    <div class="row"><label>Travel/Misc (fixed $)</label><input id="miscFixed" type="number" step="1" min="0" value="0"/></div>
     </div>
   </div>
 
-  <!-- PROJECT ASSUMPTIONS (was BOM) -->
+  <!-- MATERIAL QUANTITIES -->
   <div class="panel">
-    <h2 onclick="toggleSection('bom-section')">Project Assumptions <span class="toggle-sub">(expand to view material inputs)</span></h2>
-    <div id="bom-section" class="hidden">
-      <div class="row"><label>Backer $/ft</label><input id="priceBacker" type="number" step="0.01" min="0" value="2.37"/></div>
-      <div class="row"><label>Face $/ft</label><input id="priceFace" type="number" step="0.01" min="0" value="2.88"/></div>
-      <div class="row"><label>Chaser $/ft</label><input id="priceChaser" type="number" step="0.01" min="0" value="3.11"/></div>
-      <div class="row"><label>45° $/ft</label><input id="priceAngle" type="number" step="0.01" min="0" value="4.13"/></div>
-      <div class="row"><label>Clip price (ea)</label><input id="priceClip" type="number" step="0.01" min="0" value="0.50"/></div>
-
-      <div class="row"><label>Dot unit price ($)</label><input id="priceDot" type="number" step="0.01" min="0" value="6.03"/></div>
-      <div class="row"><label>Power inject qty</label><input id="qtyInject" type="number" step="1" min="0" value="4"/></div>
-      <div class="row"><label>Power inject $</label><input id="priceInject" type="number" step="0.01" min="0" value="40"/></div>
-      <div class="row"><label>Jumpers qty</label><input id="qtyJumper" type="number" step="1" min="0" value="10"/></div>
-      <div class="row"><label>Jumper $</label><input id="priceJumper" type="number" step="0.01" min="0" value="4.79"/></div>
-      <div class="row"><label>T‑connectors qty</label><input id="qtyT" type="number" step="1" min="0" value="4"/></div>
-      <div class="row"><label>T‑connector $</label><input id="priceT" type="number" step="0.01" min="0" value="11.80"/></div>
+    <h2 onclick="toggleSection('quantities-section')">Material Quantities <span class="toggle-sub">(expand to adjust quantities)</span></h2>
+    <div id="quantities-section" class="hidden">
+    <div class="row" id="backerRow"><label>Backer Channel (ft)</label><input id="qtyBacker" type="number" step="1" min="0" value="200"/></div>
+    <div class="row" id="clipsRow"><label>Clips (ft)</label><input id="qtyClips" type="number" step="1" min="0" value="200"/></div>
+    <div class="row"><label>Channel face (ft)</label><input id="qtyFace" type="number" step="1" min="0" value="180"/></div>
+    <div class="row"><label>Chaser channel (ft)</label><input id="qtyChaser" type="number" step="1" min="0" value="10"/></div>
+    <div class="row"><label>Pixel dots (ea)</label><input id="qtyDots" type="number" step="1" min="0" value="267"/></div>
+    <div class="row"><label>Lead Cable (ea)</label><input id="qtyLeadCable" type="number" step="1" min="0" value="1"/></div>
+    <div class="row"><label>Power injection (ea)</label><input id="qtyInject" type="number" step="1" min="0" value="2"/></div>
+    <div class="row"><label>Jumpers (ea)</label><input id="qtyJumper" type="number" step="1" min="0" value="10"/></div>
+    <div class="row"><label>T‑connectors (ea)</label><input id="qtyT" type="number" step="1" min="0" value="1"/></div>
+    <div class="row"><label>Control system (ea)</label><input id="qtyControl" type="number" step="1" min="0" value="1"/></div>
     </div>
   </div>
 
-  <!-- COST BREAKDOWN -->
+  <!-- TOTALS -->
   <div class="panel">
-    <h2>Detailed Cost Breakdown</h2>
-    <table>
-      <thead><tr><th>Component</th><th>Units</th><th>Qty</th><th>Unit $</th><th>Ext. $</th></tr></thead>
-      <tbody id="breakdownBody"></tbody>
-    </table>
-
+    <h2>Project Totals</h2>
     <div class="summary">
-      <div class="card"><div class="muted">Materials subtotal</div><div id="materialsSubtotal" class="kpi">$0.00</div></div>
-      <div class="card"><div class="muted">Waste add‑on</div><div id="wasteAdd" class="kpi">$0.00</div></div>
-      <div class="card"><div class="muted">Labor + Misc</div><div id="laborMisc" class="kpi">$0.00</div></div>
-      <div class="card"><div class="muted">Control system</div><div id="controlCost" class="kpi">$0.00</div></div>
+    <div class="card"><div class="muted">Materials subtotal</div><div id="materialsSubtotal" class="kpi">$0.00</div></div>
+    <div class="card"><div class="muted">Waste add‑on</div><div id="wasteAdd" class="kpi">$0.00</div></div>
+    <div class="card"><div class="muted">Labor + Misc</div><div id="laborMisc" class="kpi">$0.00</div></div>
+    <div class="card"><div class="muted">Control system</div><div id="controlCost" class="kpi">$0.00</div></div>
     </div>
 
     <div class="summary">
-      <div class="card"><div class="muted">Cost (pre‑markup)</div><div id="preMarkup" class="kpi">$0.00</div></div>
-      <div class="card"><div class="muted">Markup $</div><div id="markupValue" class="kpi">$0.00</div></div>
-      <div class="card"><div class="muted">Selling price</div><div id="sellPrice" class="kpi">$0.00</div></div>
-      <div class="card"><div class="muted">$/ft (sell)</div><div id="perFtSell" class="kpi">$0.00</div></div>
+    <div class="card"><div class="muted">Cost (pre‑markup)</div><div id="preMarkup" class="kpi">$0.00</div></div>
+    <div class="card"><div class="muted">Markup $</div><div id="markupValue" class="kpi">$0.00</div></div>
+    <div class="card"><div class="muted">Selling price</div><div id="sellPrice" class="kpi">$0.00</div></div>
+    <div class="card"><div class="muted">$/ft (sell)</div><div id="perFtSell" class="kpi">$0.00</div></div>
     </div>
   </div>
 
@@ -121,83 +109,130 @@
     const $ = id => document.getElementById(id);
 
     function toggleSection(id){
-      $(id).classList.toggle('hidden');
+    $(id).classList.toggle('hidden');
     }
 
     function money(n){
-      return n.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:2});
+    return n.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:2});
     }
     function num(id){const v=parseFloat($(id).value);return isNaN(v)?0:v;}
 
-    function compute(){
-      const ft = num('linearFeet');
-      const dotSpacing = 9; // fixed
-      const dots = Math.ceil((ft*12)/dotSpacing);
-
-      // Assumptions & unit prices
-      const priceBacker=num('priceBacker'), priceFace=num('priceFace'), priceChaser=num('priceChaser'), priceAngle=num('priceAngle');
-      const priceDot=num('priceDot'), priceInject=num('priceInject'), qtyInject=num('qtyInject');
-      const priceJumper=num('priceJumper'), qtyJumper=num('qtyJumper');
-      const priceT=num('priceT'), qtyT=num('qtyT');
-      const priceClip=num('priceClip');
-      const installMethod=$('installMethod').value;
-
-      // Compute quantities
-      const lenBacker=ft, lenFace=Math.max(ft-20,0), lenChaser=10, lenAngle=10;
-      const dotsPerFt = ft>0?dots/ft:0;
-
-      // Extended costs
-      let extBacker=0, extFace=lenFace*priceFace, extChaser=lenChaser*priceChaser, extAngle=lenAngle*priceAngle, extClips=0;
-      if(installMethod==="backer"){
-        extBacker=lenBacker*priceBacker;
+    function updateInstallMethodVisibility(){
+      const installMethod = $('installMethod').value;
+      if(installMethod === "backer"){
+        $('backerRow').style.display = 'flex';
+        $('clipsRow').style.display = 'none';
       } else {
-        // Clips: 4 clips per 2m → =4 / 6.56ft ≈ 0.61 clips/ft
-        const clipQty=Math.ceil(ft*0.61);
-        extClips=clipQty*priceClip;
+        $('backerRow').style.display = 'none';
+        $('clipsRow').style.display = 'flex';
       }
-      const extDots=dots*priceDot, extInject=qtyInject*priceInject, extJumper=qtyJumper*priceJumper, extT=qtyT*priceT;
-
-      const materials=extBacker+extFace+extChaser+extAngle+extDots+extInject+extJumper+extT+extClips;
-      const wasteAdd=materials*(num('wastePct')/100);
-
-      const laborMisc=(num('laborRate')*num('laborHours'))+num('miscFixed');
-      const control=num('controlOption').value;
-      const preMarkup=materials+wasteAdd+laborMisc+parseFloat(control);
-      const markupVal=preMarkup*(num('markupPct')/100);
-      const sell=preMarkup+markupVal;
-      const perFtSell=ft>0?sell/ft:0;
-
-      // Breakdown table
-      const rows=[];
-      if(installMethod==="backer") rows.push(['Backer channel','ft',lenBacker,priceBacker,extBacker]);
-      else rows.push(['Clips','ea',Math.ceil(ft*0.61),priceClip,extClips]);
-      rows.push(['Channel face','ft',lenFace,priceFace,extFace]);
-      rows.push(['Chaser channel','ft',lenChaser,priceChaser,extChaser]);
-      rows.push(['45° angle parts','ft',lenAngle,priceAngle,extAngle]);
-      rows.push(['Pixel dots','ea',dots,priceDot,extDots]);
-      rows.push(['Power injection','ea',qtyInject,priceInject,extInject]);
-      rows.push(['Jumpers','ea',qtyJumper,priceJumper,extJumper]);
-      rows.push(['T‑connectors','ea',qtyT,priceT,extT]);
-      rows.push(['Control system','ea',1,control,control]);
-
-      $('breakdownBody').innerHTML=rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${money(r[3])}</td><td>${money(r[4])}</td></tr>`).join('');
-
-      // KPIs
-      $('materialsSubtotal').textContent=money(materials);
-      $('wasteAdd').textContent=money(wasteAdd);
-      $('laborMisc').textContent=money(laborMisc);
-      $('controlCost').textContent=money(control);
-      $('preMarkup').textContent=money(preMarkup);
-      $('markupValue').textContent=money(markupVal);
-      $('sellPrice').textContent=money(sell);
-      $('perFtSell').textContent=money(perFtSell);
     }
 
-    document.querySelectorAll('input,select').forEach(el=>{
-      el.addEventListener('input',compute);
-      el.addEventListener('change',compute);
+    function compute(){
+      const ft = num('linearFeet');
+
+      // Fixed unit prices (not visible to user)
+      const priceBacker = 2.37;
+      const priceFace = 2.88;
+      const priceChaser = 3.11;
+      const priceDot = 6.03;
+      const priceInject = 40;
+      const priceJumper = 4.79;
+      const priceT = 11.80;
+      const priceLeadCable = 40;
+      const priceClips = 0.164; // per linear foot
+
+      // User-editable quantities
+      const qtyBacker = num('qtyBacker');
+      const qtyClips = num('qtyClips');
+      const qtyFace = num('qtyFace');
+      const qtyChaser = num('qtyChaser');
+      const qtyDots = num('qtyDots');
+      const qtyLeadCable = num('qtyLeadCable');
+      const qtyInject = num('qtyInject');
+      const qtyJumper = num('qtyJumper');
+      const qtyT = num('qtyT');
+      const qtyControl = num('qtyControl');
+
+      const installMethod = $('installMethod').value;
+
+      // Calculate extended costs
+      let extBacker = 0, extClips = 0;
+      if(installMethod === "backer"){
+        extBacker = qtyBacker * priceBacker;
+      } else {
+        extClips = qtyClips * priceClips;
+      }
+      
+      const extFace = qtyFace * priceFace;
+      const extChaser = qtyChaser * priceChaser;
+      const extDots = qtyDots * priceDot;
+      const extLeadCable = qtyLeadCable * priceLeadCable;
+      const extInject = qtyInject * priceInject;
+      const extJumper = qtyJumper * priceJumper;
+      const extT = qtyT * priceT;
+
+      const materials = extBacker + extFace + extChaser + extDots + extLeadCable + extInject + extJumper + extT + extClips;
+      const wasteAdd = materials * (num('wastePct')/100);
+
+      const laborMisc = (num('laborRate') * num('laborHours')) + num('miscFixed');
+      const control = parseFloat($('controlOption').value) * qtyControl;
+      const preMarkup = materials + wasteAdd + laborMisc + control;
+      const markupVal = preMarkup * (num('markupPct')/100);
+      const sell = preMarkup + markupVal;
+      const perFtSell = ft > 0 ? sell/ft : 0;
+
+      // Update KPIs
+      $('materialsSubtotal').textContent = money(materials);
+      $('wasteAdd').textContent = money(wasteAdd);
+      $('laborMisc').textContent = money(laborMisc);
+      $('controlCost').textContent = money(control);
+      $('preMarkup').textContent = money(preMarkup);
+      $('markupValue').textContent = money(markupVal);
+      $('sellPrice').textContent = money(sell);
+      $('perFtSell').textContent = money(perFtSell);
+    }
+
+    // Auto-update quantities based on linear footage
+    function updateQuantities(){
+      const ft = num('linearFeet');
+      const baseFootage = 200;
+      const dotSpacing = 9; // inches
+      
+      // Calculate quantities based on linear footage
+      const dots = Math.ceil((ft * 12) / dotSpacing);
+      
+      // Update quantities (users can still edit these after auto-update)
+      $('qtyBacker').value = ft;
+      $('qtyClips').value = ft;
+      $('qtyFace').value = Math.max(ft - 20, 0);
+      $('qtyChaser').value = 10;
+      $('qtyDots').value = dots;
+      $('qtyLeadCable').value = Math.ceil(ft / baseFootage);
+      $('qtyInject').value = Math.ceil((ft / baseFootage) * 2);
+      $('qtyT').value = Math.ceil(ft / baseFootage);
+      $('qtyControl').value = 1;
+      
+      compute();
+    }
+
+    // Event listeners
+    document.querySelectorAll('input,select').forEach(el => {
+      el.addEventListener('input', compute);
+      el.addEventListener('change', compute);
     });
-    compute();
+    
+    // Special listeners
+    $('linearFeet').addEventListener('input', updateQuantities);
+    $('linearFeet').addEventListener('change', updateQuantities);
+    $('installMethod').addEventListener('change', function(){
+      updateInstallMethodVisibility();
+      compute();
+    });
+    
+    // Initial setup
+    updateInstallMethodVisibility();
+    updateQuantities();
   </script>
 </body>
 </html>
